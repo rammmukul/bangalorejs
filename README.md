@@ -1,5 +1,4 @@
-
- ## GeekSkool-- Meet-Up Project
+## GeekSkool-- Meet-Up Project
 
  ### Pre-requisites
  
