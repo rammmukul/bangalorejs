@@ -6,3 +6,4 @@ build/main.js
 server/data/data.json
 /dump.rdb
 build/images/*
+app.env
