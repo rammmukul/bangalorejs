@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import id from '../../config/setup.js'
 
 class GoogleOauth extends Component {
   constructor (props) {
@@ -23,7 +22,7 @@ class GoogleOauth extends Component {
 
   init () {
     const params = {
-      client_id: id.clientid.google,
+      client_id: '689254462441-12m3gtb3llr27d4u4pvf6n0je55h24lf.apps.googleusercontent.com',
       cookie_policy: 'single_host_origin',
       fetch_basic_profile: true,
       ux_mode: 'popup',
