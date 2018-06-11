@@ -1,4 +1,5 @@
 const util = require('../model/utils')
+const Redis = require('../model/redis')
 
 const user = {
   login: (req, res) => {
@@ -14,16 +15,17 @@ const user = {
   },
 
   getUserInfo: (req, res) => {
-    const admin = 'archanamittal0388@gmail.com'
-    if (admin === req.body.email) {
-      req.session.admin = req.body.email
-    } else {
-      req.session.user = req.body.email
-      req.session.admin = ''
-    }
-    const email = req.body.email
-    util.getUserProfile(email).then((obj) => {
-      res.json(JSON.parse(obj))
+    Redis.lrange('admins', 0, -1).then((admins) => {
+      const { email } = req.body
+      const isAdmin = admins.filter((admin) => admin === email)[0]
+      if (isAdmin) {
+        req.session.admin = email
+      } else {
+        req.session.user = email
+      }
+      util.getUserProfile(email).then((obj) => {
+        res.json(JSON.parse(obj))
+      })
     })
   }
 }

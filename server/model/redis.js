@@ -1,6 +1,10 @@
 const redis = require('redis')
-const client = redis.createClient()
+const url = require('url')
 const {promisify} = require('util')
+
+const redisURL = url.parse('redis://rediscloud:nW2uWZSh6dFJpKfDjqqkoRWCKOv5OEUD@redis-17508.c44.us-east-1-2.ec2.cloud.redislabs.com:17508')
+const client = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true})
+client.auth(redisURL.auth.split(':')[1])
 
 client.on('connect', function () {
   console.log('connected')
