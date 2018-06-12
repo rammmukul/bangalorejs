@@ -31,22 +31,21 @@ class EventContainer extends Component {
       <div className='container section'>
         <h2 className='title is-4'>Events</h2>
         {showErrorMsg && <div>There is a problem getting list of events.Please try after some time</div>}
-        {events && events.length > 0 &&
-          <div>
-            {showCarousel
-              ? <Carousel>
-                {events.map((event, index) => {
-                  return (
-                    <div key={index} className='is-inline-block'>
-                      <EventCard event={event} onEventClick={onEventClick} />
-                    </div>
-                  )
-                })}
-              </Carousel>
-              : <div className='columns is-multiline'><EventList onEventClick={onEventClick} events={events} /></div>
-            }
-          </div>
+        {showCarousel && events && events.length > 0 &&
+        <Carousel>
+          {events.map((event, index) => {
+            return (
+              <div key={index} className='is-inline-block'>
+                <EventCard event={event} onEventClick={onEventClick} />
+              </div>
+            )
+          })}
+        </Carousel>
         }
+        {showCarousel && events.length === 0 && <div>There are no events</div>}
+
+        {!showCarousel && <div className='columns is-multiline'><EventList onEventClick={onEventClick} events={events} /></div>}
+
       </div>
     )
   }
