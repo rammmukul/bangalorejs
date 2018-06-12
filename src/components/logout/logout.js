@@ -23,7 +23,6 @@ class Logout extends Component {
         console.log('logout')
         this.signOut()
       }).then(() => {
-        this.props.history.push('/')
         this.props.onLogoutSuccess()
         if (this.props.first) {
           this.props.handleFirst()
