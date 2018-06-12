@@ -27,7 +27,6 @@ class Logout extends Component {
         if (this.props.first) {
           this.props.handleFirst()
         }
-        this.props.history.go(-1)
       })
   }
 
