@@ -4,9 +4,7 @@ const redis = require('redis')
 const client = redis.createClient()
 const session = require('express-session')
 const RedisStore = require('connect-redis')(session)
-const path = require('path')
 const multer = require('multer')
-const admin = require('./controller/admin')
 const user = require('./controller/user')
 const event = require('./controller/event')
 const attendee = require('./controller/attendee')
@@ -69,18 +67,6 @@ app.post('/api/user/login', user.login)
 
 // API call for user logout
 app.delete('/api/user/logout', user.logout)
-
-// Authenticate Admin
-app.get('/admin', admin.authorize)
-
-app.get('/admin/create', admin.authenticate)
-
-app.get('/admin/dashboard', admin.authenticate)
-
-// to render UI...always place it at the bottom
-app.get('*', (req, res) => {
-  res.sendFile(path.join(`${__dirname}/../public/index.html`))
-})
 
 app.listen(PORT, function () {
   console.log('Example app listening on port ', PORT)
