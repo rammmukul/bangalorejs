@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const redis = require('redis')
+const fs = require('fs')
 const client = redis.createClient()
 const session = require('express-session')
 const RedisStore = require('connect-redis')(session)
@@ -9,18 +10,30 @@ const user = require('./controller/user')
 const event = require('./controller/event')
 const attendee = require('./controller/attendee')
 const comment = require('./controller/comment')
+const admin = require('./controller/admin')
 
 const app = express()
 const PORT = 3000
+const UPLOAD_DIR = './public/images'
 
 const storage = multer.diskStorage({
   destination: function (req, file, callback) {
-    callback(null, './build/images')
+    callback(null, UPLOAD_DIR)
   },
   filename: function (req, file, callback) {
     callback(null, Date.now() + '_' + file.originalname)
   }
 })
+
+const checkUploadPath = () => {
+  fs.stat(UPLOAD_DIR, (err) => {
+    if (err) {
+      fs.mkdir(UPLOAD_DIR, () => {})
+    }
+  })
+}
+
+checkUploadPath()
 
 const upload = multer({ storage })
 
@@ -34,6 +47,9 @@ app.use(session({
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(express.static('public'))
+
+// API call for admin validation
+app.post('/api/admin/validate', admin)
 
 // API call to get list of events
 app.get('/api/event', event.eventList)
