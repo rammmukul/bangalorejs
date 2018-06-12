@@ -35,7 +35,7 @@ app.use(session({
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.use(express.static('build'))
+app.use(express.static('public'))
 
 // API call to get list of events
 app.get('/api/event', event.eventList)
@@ -79,7 +79,7 @@ app.get('/admin/dashboard', admin.authenticate)
 
 // to render UI...always place it at the bottom
 app.get('*', (req, res) => {
-  res.sendFile(path.join(`${__dirname}/../build/index.html`))
+  res.sendFile(path.join(`${__dirname}/../public/index.html`))
 })
 
 app.listen(PORT, function () {
