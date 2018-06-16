@@ -64,6 +64,8 @@ app.delete('/api/event/comment', comment.deleteComment)
 // API call for user details
 app.post('/api/user/get', user.getUserInfo)
 
+app.post('/api/user/auth', user.auth)
+
 // API call for user login
 app.post('/api/user/login', user.login)
 

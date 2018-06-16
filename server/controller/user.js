@@ -1,3 +1,4 @@
+const fetch = require('node-fetch')
 const util = require('../model/utils')
 const Redis = require('../model/redis')
 
@@ -15,18 +16,38 @@ const user = {
   },
 
   getUserInfo: (req, res) => {
-    Redis.lrange('admins', 0, -1).then((admins) => {
-      const { email } = req.body
-      const isAdmin = admins.filter((admin) => admin === email)[0]
-      if (isAdmin) {
-        req.session.admin = email
-      } else {
-        req.session.user = email
-      }
+    const { email } = req.body
+    if (req.session) {
       util.getUserProfile(email).then((obj) => {
-        res.json(JSON.parse(obj))
+        res.status(200).json(JSON.parse(obj))
       })
-    })
+    } else {
+      res.status(403).send('resource cannot be fetched')
+    }
+  },
+
+  auth: (req, res) => {
+    console.log(req.session.user)
+    if (!req.session.admin && !req.session.user) {
+      const { email } = req.body
+      return fetch('https://www.googleapis.com/userinfo/v2/me', {method: 'GET', headers: {'Authorization': `Bearer ${req.body.access_token}`}})
+        .then(response => response.json())
+        .then(result => {
+          if (result.email === req.body.email) {
+            return Redis.lrange('admins', 0, -1).then((admins) => {
+              const isAdmin = admins.filter((admin) => admin === email)[0]
+              if (isAdmin) {
+                req.session.admin = email
+              } else {
+                req.session.user = email
+              }
+              return res.status(201).json(result)
+            })
+          }
+          return res.status(401).json('login failed')
+        })
+    }
+    return res.status(200).json('session in progress')
   }
 }
 
