@@ -40,6 +40,9 @@ class Header extends Component {
             .then(res => res.json())
             .then(result => {
               if (result.statusCode !== 401) {
+                if (this.props.signinPopUp) {
+                  this.props.handleSigninPopUp()
+                }
                 return this.handleSigninSuccess(profile)
               }
               return auth.disconnect()

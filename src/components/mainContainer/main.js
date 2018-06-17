@@ -23,7 +23,8 @@ class Main extends Component {
       },
       first: false,
       redirect: [],
-      yes: false
+      yes: false,
+      signinPopUp: false
     }
     this.handleLoginSuccess = this.handleLoginSuccess.bind(this)
     this.handleLogoutSuccess = this.handleLogoutSuccess.bind(this)
@@ -31,6 +32,7 @@ class Main extends Component {
     this.handleRedirect = this.handleRedirect.bind(this)
     this.handleYes = this.handleYes.bind(this)
     this.handleEventClick = this.handleEventClick.bind(this)
+    this.handleSigninPopUp = this.handleSigninPopUp.bind(this)
   }
 
   handleLoginSuccess (profile, cb) {
@@ -87,14 +89,18 @@ class Main extends Component {
     history.push(`/${event.id}`)
   }
 
+  handleSigninPopUp () {
+    return this.setState({signinPopUp: !this.state.signinPopUp})
+  }
+
   render () {
-    const {isLoggedin, profile, first, redirect, yes} = this.state
+    const {isLoggedin, profile, first, redirect, yes, signinPopUp} = this.state
     return (
       <BrowserRouter>
         <div>
           <Header isLoggedin={isLoggedin} onLoginSuccess={this.handleLoginSuccess}
             onLogoutSuccess={this.handleLogoutSuccess} profile={profile} handleFirst={this.handleFirst} first={first}
-            handleRedirect={this.handleRedirect} />
+            handleRedirect={this.handleRedirect} signinPopUp={signinPopUp} handleSigninPopUp={this.handleSigninPopUp} />
           <Switch>
             <Route exact path='/' render={(props) => <Content {...props} first={first} handleRedirect={this.handleRedirect} onEventClick={this.handleEventClick.bind(null, props.history)} />} />
             <Route exact path='/profile' render={(props) => <Profile {...props} profile={profile}
@@ -102,7 +108,8 @@ class Main extends Component {
               redirect={redirect} />} />
             <Route path='/admin' component={Admin} />
             <Route exact path='/:id' render={(props) => <EventDetails {...props} isLoggedin={isLoggedin} profile={profile} first={first} yes={yes}
-              onLoginSuccess={this.handleLoginSuccess} handleFirst={this.handleFirst} handleRedirect={this.handleRedirect} handleYes={this.handleYes} />} />
+              onLoginSuccess={this.handleLoginSuccess} handleFirst={this.handleFirst} handleRedirect={this.handleRedirect} handleYes={this.handleYes}
+              signinPopUp={signinPopUp} handleSigninPopUp={this.handleSigninPopUp} />} />
 
           </Switch>
         </div>
