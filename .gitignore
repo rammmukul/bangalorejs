@@ -4,6 +4,5 @@ src/config/setup.js
 public/js/main.js.map
 public/js/main.js
 server/data/data.json
-public/images/*
 /dump.rdb
 app.env
