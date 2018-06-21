@@ -19,7 +19,7 @@ const EventList = ({events, onEventClick}) => {
           </div>
         </div>
       </div>
-      {events.map((event, index) => {
+      {events && events.map((event, index) => {
         return (
           <div key={index} className='is-inline-block'>
             <EventCard event={event} onEventClick={onEventClick} />

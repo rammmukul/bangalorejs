@@ -15,7 +15,10 @@ const hget = promisify(client.hget).bind(client)
 const lpush = promisify(client.lpush).bind(client)
 const lrange = promisify(client.lrange).bind(client)
 const lset = promisify(client.lset).bind(client)
+const sadd = promisify(client.sadd).bind(client)
+const smembers = promisify(client.smembers).bind(client)
+const lpop = promisify(client.lpop).bind(client)
 
 module.exports = {
-  hmset, hget, lpush, lrange, lset
+  hmset, hget, lpush, lrange, lset, sadd, smembers, lpop
 }

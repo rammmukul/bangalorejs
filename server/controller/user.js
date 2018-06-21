@@ -15,7 +15,7 @@ const user = {
   },
 
   getUserInfo: (req, res) => {
-    Redis.lrange('admins', 0, -1).then((admins) => {
+    Redis.smembers('admins').then((admins) => {
       const { email } = req.body
       const isAdmin = admins.filter((admin) => admin === email)[0]
       if (isAdmin) {
