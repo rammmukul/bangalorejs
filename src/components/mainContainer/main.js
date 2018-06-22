@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { HashRouter, Route, Switch } from 'react-router-dom'
 import Content from '../content'
 import Header from '../header'
 import EventDetails from '../eventDetails'
@@ -90,7 +90,7 @@ class Main extends Component {
   render () {
     const {isLoggedin, profile, first, redirect, yes} = this.state
     return (
-      <BrowserRouter>
+      <HashRouter>
         <div>
           <Header isLoggedin={isLoggedin} onLoginSuccess={this.handleLoginSuccess}
             onLogoutSuccess={this.handleLogoutSuccess} profile={profile} handleFirst={this.handleFirst} first={first}
@@ -103,10 +103,9 @@ class Main extends Component {
             <Route path='/admin' component={Admin} />
             <Route exact path='/:id' render={(props) => <EventDetails {...props} isLoggedin={isLoggedin} profile={profile} first={first} yes={yes}
               onLoginSuccess={this.handleLoginSuccess} handleFirst={this.handleFirst} handleRedirect={this.handleRedirect} handleYes={this.handleYes} />} />
-
           </Switch>
         </div>
-      </BrowserRouter>
+      </HashRouter>
     )
   }
 }

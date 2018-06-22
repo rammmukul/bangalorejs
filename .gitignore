@@ -1,9 +1,9 @@
 node_modules
 /hot
 src/config/setup.js
-build/main.js.map
-build/main.js
+public/js/main.js.map
+public/js/main.js
 server/data/data.json
-/dump.rdb
-build/images/*
+dump.rdb
 app.env
+build/
