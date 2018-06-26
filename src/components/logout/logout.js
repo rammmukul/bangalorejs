@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {withRouter} from 'react-router-dom'
 import Button from '../../shared/button'
-import config from '../../config/index'
 import http from '../../helper/http'
 
 class Logout extends Component {
@@ -18,7 +17,7 @@ class Logout extends Component {
 
   }
   onClick () {
-    http.delete(`${config.url}api/user/logout`, {})
+    http.delete(`api/user/logout`, {})
       .then(() => {
         console.log('logout')
         this.signOut()

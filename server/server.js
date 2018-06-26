@@ -1,8 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const redis = require('redis')
+const Redis = require('./model/redis')
 const fs = require('fs')
-const client = redis.createClient()
 const session = require('express-session')
 const RedisStore = require('connect-redis')(session)
 const multer = require('multer')
@@ -13,7 +12,7 @@ const comment = require('./controller/comment')
 const admin = require('./controller/admin')
 
 const app = express()
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 const UPLOAD_DIR = './public/images'
 
 const storage = multer.diskStorage({
@@ -39,7 +38,7 @@ const upload = multer({ storage })
 
 app.use(session({
   secret: 'ssshhhhh',
-  store: new RedisStore({host: 'localhost', port: 6379, client: client, ttl: 260}),
+  store: new RedisStore({host: Redis.redisURL.hostname, port: Redis.redisURL.port, client: Redis.client, ttl: 260}),
   saveUninitialized: false,
   resave: false
 }))

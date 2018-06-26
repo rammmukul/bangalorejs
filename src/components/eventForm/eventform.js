@@ -3,7 +3,6 @@ import {Redirect} from 'react-router-dom'
 import Button from '../../shared/button'
 import Input from '../../shared/input'
 import TextArea from '../../shared/textarea'
-import config from '../../config/index'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
 import 'react-datepicker/dist/react-datepicker.min.css'
@@ -77,7 +76,7 @@ class EventForm extends Component {
       formData.append('dateTime', date)
       id && formData.append('id', id)
 
-      fetch(`${config.url}api/event`, {
+      fetch(`api/event`, {
         method: isEditMode ? 'PUT' : 'POST',
         credentials: 'same-origin',
         body: formData

@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {Route, Redirect} from 'react-router-dom'
 import DashBoard from './dashboard'
 import EventForm from '../eventForm'
-import config from '../../config/index'
 import http from '../../helper/http'
 
 class Admin extends Component {
@@ -16,7 +15,7 @@ class Admin extends Component {
   }
 
   componentDidMount () {
-    http.post(`${config.url}api/admin/validate`, {'a': 'b'})
+    http.post(`api/admin/validate`, {'a': 'b'})
       .then((response) => {
         if (response.status === 200) {
           this.setState({isAuthenticated: true})

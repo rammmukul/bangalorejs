@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import Carousel from '../../shared/carousel'
 import EventList from './eventList'
 import EventCard from '../eventCard'
-import config from '../../config/index'
 import http from '../../helper/http'
 
 class EventContainer extends Component {
@@ -15,7 +14,7 @@ class EventContainer extends Component {
   }
 
   componentDidMount () {
-    http.get(`${config.url}api/event`)
+    http.get(`api/event`)
       .then(response => response.json())
       .then((events) => {
         this.setState({events})
