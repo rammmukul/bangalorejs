@@ -24,7 +24,7 @@ class EventDetails extends Component {
     this.handleYesButtonClick = this.handleYesButtonClick.bind(this)
     this.handleCancelButtonClick = this.handleCancelButtonClick.bind(this)
     this.handleCloseClick = this.handleCloseClick.bind(this)
-    this.handleLoginSuccess = this.handleLoginSuccess.bind(this)
+    // this.handleLoginSuccess = this.handleLoginSuccess.bind(this)
     this.getEventDetails = this.getEventDetails.bind(this)
     this.handleEventAttending = this.handleEventAttending.bind(this)
     this.checkAttendee = this.checkAttendee.bind(this)
@@ -56,11 +56,12 @@ class EventDetails extends Component {
 
   componentWillMount () {
     this.getEventDetails()
-    // console.log(this.props.yes, this.props.profile, 'component will mount')
-    // if (this.props.yes && this.props.profile.email) {
-    //   console.log('this was triggered')
-    //   this.handleEventAttending()
-    // }
+  }
+
+  componentDidUpdate () {
+    if (this.props.yes && this.props.profile.email) {
+      this.checkAttendee()
+    }
   }
 
   handleEventAttending () {
@@ -72,12 +73,14 @@ class EventDetails extends Component {
   }
 
   handleYesButtonClick () {
-    let {isLoggedin, handleYes} = this.props
-    handleYes(true)
-    if (isLoggedin) {
-      return this.handleEventAttending()
+    this.props.handleYes(true)
+    let {isLoggedin, signinPopUp, first} = this.props
+    if (isLoggedin && !first) {
+      this.handleEventAttending()
     }
-    this.setState({showPopUp: true})
+    if (!signinPopUp && !isLoggedin) {
+      this.props.handleSigninPopUp()
+    }
   }
 
   handleAttendee (profile, eventId, url) {
@@ -97,26 +100,23 @@ class EventDetails extends Component {
 
   handleCloseClick () {
     this.props.handleYes(false)
-    this.setState({showPopUp: false})
-  }
-
-  handleLoginSuccess (authProfile) {
-    this.setState({showPopUp: false})
-    this.props.onLoginSuccess(authProfile, this.checkAttendee)
+    if (this.props.signinPopUp) {
+      this.props.handleSigninPopUp()
+    }
   }
 
   checkAttendee () {
     const {event} = this.state
     const list = event.attendees.filter((attendee) => attendee.email === this.props.profile.email)[0]
-    if (!list && this.props.profile.email) {
+    if (!list && this.props.profile.email && this.props.yes && !this.props.first) {
       this.handleAttendee(this.props.profile, event.id, `${config.url}api/event/attendee`)
+      this.props.handleYes(false)
     }
-    this.props.handleYes(false)
   }
 
   render () {
-    const {event, showPopUp} = this.state
-    const {isLoggedin, profile, first} = this.props
+    const {event} = this.state
+    const {isLoggedin, profile, first, signinPopUp} = this.props
     if (!event) {
       return null
     }
@@ -129,9 +129,10 @@ class EventDetails extends Component {
         <Redirect to='/profile' />
       )
     }
+
     return (
       <main>
-        {showPopUp && <PopUp onClose={this.handleCloseClick} title='Sign in'><GoogleOauth onLoginSuccess={this.handleLoginSuccess} /></PopUp>}
+        {signinPopUp && <PopUp onClose={this.handleCloseClick} title='Sign in'><GoogleOauth /></PopUp>}
         <div className='card'>
           <section className='level container card-content'>
             <article className='level-left'>
