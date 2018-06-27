@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack --config webpack/webpack.dev.js",
     "build": "webpack --config webpack/webpack.prod.js && npm run dev-server",
-    "dev-server": "node ./server/server"
+    "dev-server": "nodemon ./server/server"
   },
   "author": "Archana Bansal",
   "contributors": [
@@ -37,6 +37,7 @@
     "express-session": "^1.15.6",
     "moment": "^2.22.2",
     "multer": "^1.3.0",
+    "node-fetch": "^2.1.2",
     "react": "16.3.1",
     "react-datepicker": "^1.5.0",
     "react-dom": "16.3.1",
