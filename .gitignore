@@ -1,10 +1,7 @@
 node_modules
-/hot
-src/config/setup.js
 public/js/main.js.map
 public/js/main.js
 server/data/data.json
 dump.rdb
-app.env
 build/
-package-lock.json
+app.env

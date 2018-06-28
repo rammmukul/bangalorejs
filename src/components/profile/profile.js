@@ -3,7 +3,6 @@ import {Redirect} from 'react-router-dom'
 import Button from '../../shared/button'
 import Input from '../../shared/input'
 import TextArea from '../../shared/textarea'
-import config from '../../config/index'
 import http from '../../helper/http'
 
 class Profile extends Component {
@@ -26,7 +25,7 @@ class Profile extends Component {
       aboutme: e.target.aboutme.value,
       display: this.state.checkbox
     })
-    http.post(`${config.url}api/user/login`, data)
+    http.post(`api/user/login`, data)
       .then((response) => {
         if (response.status === 200) {
           this.props.handleFirst()

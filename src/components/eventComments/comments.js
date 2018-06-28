@@ -3,7 +3,6 @@ import TextArea from '../../shared/textarea'
 import Button from '../../shared/button'
 import http from '../../helper/http'
 import moment from 'moment'
-import config from '../../config/index'
 
 class Comments extends Component {
   constructor (props) {
@@ -29,7 +28,7 @@ class Comments extends Component {
 
     const obj = {message, email: profile.email, eventId}
 
-    http.post(`${config.url}api/event/comment`, obj)
+    http.post(`api/event/comment`, obj)
       .then((response) => {
         if (response.status === 200) {
           this.handleReset()
@@ -50,7 +49,7 @@ class Comments extends Component {
     const {eventId, eventDetails} = this.props
     const obj = {commentId: comment.commentId, eventId}
 
-    http.delete(`${config.url}api/event/comment`, obj)
+    http.delete(`api/event/comment`, obj)
       .then((response) => {
         eventDetails()
       })

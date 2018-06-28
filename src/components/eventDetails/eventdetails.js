@@ -6,7 +6,6 @@ import Description from '../eventDescription/description'
 import Attendees from '../eventAttendees/attendees'
 import Comments from '../eventComments/comments'
 import http from '../../helper/http'
-import config from '../../config/index'
 import PopUp from '../../shared/popup'
 import GoogleOauth from '../googleOauth'
 import EventConfirm from './eventconfirm'
@@ -31,7 +30,7 @@ class EventDetails extends Component {
   }
 
   getEventDetails () {
-    http.get(`${config.url}api/event/${this.props.match.params.id}`)
+    http.get(`api/event/${this.props.match.params.id}`)
       .then(response => response.json())
       .then((event) => {
         const {isLocationLoaded} = this.state
@@ -68,7 +67,7 @@ class EventDetails extends Component {
     let {profile} = this.props
     if (profile.email) {
       this.props.handleYes(false)
-      this.handleAttendee(profile, this.state.event.id, `${config.url}api/event/attendee`)
+      this.handleAttendee(profile, this.state.event.id, `api/event/attendee`)
     }
   }
 
@@ -95,7 +94,7 @@ class EventDetails extends Component {
   handleCancelButtonClick () {
     const {profile, handleYes} = this.props
     handleYes(false)
-    this.handleAttendee(profile, this.state.event.id, `${config.url}api/event/attendee/cancel`)
+    this.handleAttendee(profile, this.state.event.id, `api/event/attendee/cancel`)
   }
 
   handleCloseClick () {

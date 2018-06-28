@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 
-import config from '../../config/index'
 import http from '../../helper/http'
 
 import GoogleOauth from '../googleOauth'
@@ -33,7 +32,7 @@ class Header extends Component {
         console.log('listen logs')
         const profile = auth.currentUser.get().getBasicProfile()
         if (isLoggedIn) {
-          http.post(`${config.url}api/user/auth`,
+          http.post(`api/user/auth`,
             {access_token: auth.currentUser.get().Zi.access_token,
               email: profile.getEmail()
             })

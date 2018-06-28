@@ -3,7 +3,6 @@ import { HashRouter, Route, Switch } from 'react-router-dom'
 import Content from '../content'
 import Header from '../header'
 import EventDetails from '../eventDetails'
-import config from '../../config/index'
 import http from '../../helper/http'
 import Admin from '../admin'
 import Profile from '../profile'
@@ -44,7 +43,7 @@ class Main extends Component {
       display: true,
       aboutme: ''
     }
-    http.post(`${config.url}api/user/get`, data)
+    http.post(`api/user/get`, data)
       .then(response => {
         response.json().then(profileinfo => {
           if (profileinfo === null) {
