@@ -27,15 +27,14 @@ const user = {
   },
 
   auth: (req, res) => {
-    console.log(req.session.user)
     if (!req.session.admin && !req.session.user) {
       const { email } = req.body
       return fetch('https://www.googleapis.com/userinfo/v2/me', {method: 'GET', headers: {'Authorization': `Bearer ${req.body.access_token}`}})
         .then(response => response.json())
         .then(result => {
           if (result.email === req.body.email) {
-            return Redis.lrange('admins', 0, -1).then((admins) => {
-              const isAdmin = admins.filter((admin) => admin === email)[0]
+            return Redis.sismember('admins', email).then((err, isAdmin) => {
+              if (err) console.error(err)
               if (isAdmin) {
                 req.session.admin = email
               } else {
@@ -46,6 +45,7 @@ const user = {
           }
           return res.status(401).json('login failed')
         })
+        .catch(err => console.error('Error: ', err))
     }
     return res.status(200).json('session in progress')
   }
